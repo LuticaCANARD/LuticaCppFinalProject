@@ -1,9 +1,15 @@
 #ifndef BOARDDRAW_H
 #define BOARDDRAW_H
 
+#include "Board.h"
 class BoardDraw
 {
-
+private:
+    Board* board;
+public:
+    BoardDraw(Board* _board);
+    ~BoardDraw();
+    void draw();
 };
 
 #endif // BOARDDRAW_H

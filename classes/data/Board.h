@@ -2,6 +2,9 @@
 #define BOARD_H
 
 #include "Pieces.h"
+#include "PlayerGameResults.h"
+#include "PiecesCode.h"
+#include "enums/InputErrorCode.h"
 
 using namespace std;
 /**
@@ -15,10 +18,12 @@ private:
     Pieces *** board; // 삼중 포인터인 이유는 동적 크기 배열 할당을 위하여 사용하는 것임.
     // 삼중...
     int size; // 보드의 크기. 
+    bool _flag_changed_board_before_get_code; // 보드가 변경되었는지 여부를 나타냄.
+    PiecesCode** _board_cache; // 보드의 정보가 캐싱됨.
 public:
     Board(int _size); // 초기화임.
     ~Board(); // 삭제자임.
-    void print(); // 보드를 출력함.(승계.)
+    PiecesCode** getBoardInfo(); // 보드 정보를 가져옴(print 대체. 개방-폐쇄 원칙)
     /**
      * @brief board에 유저 혹은 컴퓨터의 기물을 설정함.
      * 
@@ -27,20 +32,20 @@ public:
      * @param y y좌표
      * @return int error code : 1이면 정상임. 
      */
-    int setInput(bool _isComputer,int x,int y);
+    InputErrorCode setInput(bool _isComputer,int x,int y);
     /**
      * @brief Get the Game Result
-     * @return int 유저의 승리라면 1, 컴퓨터의 승리라면 -1, 진행중이면 0, 무승부라면 -2
+     * @return PlayerGameResults 유저의 승리라면 1, 컴퓨터의 승리라면 -1, 진행중이면 0, 무승부라면 -2
      */
-    int getGameResult();
+    PlayerGameResults getGameResult();
     /**
      * @brief 기물의 소유권을 반환합니다.
      * 1은 유저, -1은 컴퓨터, 0은 없음입니다.
      * @param x 
      * @param y 
-     * @return int 
+     * @return PiecesCode  
      */
-    int getWareCode(int r,int c);
+    PiecesCode getWareCode(int r,int c);
     /**
      * @brief 이 보드에 "가상의" 기물을 설치합니다.
      * 
@@ -55,8 +60,7 @@ public:
      * @return int 추가로 배치 가능한 기물의 수입니다.
      */
     int searchCanSetThisBoard();
-
-
+    int getSize(); // 보드의 크기를 반환함.
 };
 
 #endif // BOARD_H

@@ -60,6 +60,7 @@
   "files.associations": {
     "*.ejs": "html",
     "xstring": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "iostream": "cpp"
   }
 }

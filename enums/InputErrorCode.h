@@ -1,0 +1,14 @@
+#ifndef INPUTERRORCODE_H
+#define INPUTERRORCODE_H
+
+enum InputErrorCode
+{
+    INVALID_INPUT_X_0 = -1,
+    INVALID_INPUT_X_MAX = -2,
+    INVALID_INPUT_Y_0 = -3,
+    INVALID_INPUT_Y_MAX = -4,
+    INVALID_INPUT_THERE_IS_ALREADY = -5,
+    VALID_INPUT = 1
+};
+
+#endif // INPUTERRORCODE_H
