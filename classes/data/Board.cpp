@@ -78,15 +78,6 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y)
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
     return InputErrorCode::VALID_INPUT;
 }
-/**
- * @brief Get the Game Result object
- * 유저의 승리라면 1, 컴퓨터의 승리라면 -1, 진행중이면 0, 무승부라면 -2
- * @return int 
- */
-PlayerGameResults Board::getGameResult()
-{
-    
-}
 
 PiecesCode Board::getWareCode(int r,int c)
 {

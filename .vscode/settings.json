@@ -61,6 +61,10 @@
     "*.ejs": "html",
     "xstring": "cpp",
     "xutility": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "utility": "cpp",
+    "vector": "cpp",
+    "xtree": "cpp",
+    "ostream": "cpp"
   }
 }

@@ -34,11 +34,6 @@ public:
      */
     InputErrorCode setInput(bool _isComputer,int x,int y);
     /**
-     * @brief Get the Game Result
-     * @return PlayerGameResults 유저의 승리라면 1, 컴퓨터의 승리라면 -1, 진행중이면 0, 무승부라면 -2
-     */
-    PlayerGameResults getGameResult();
-    /**
      * @brief 기물의 소유권을 반환합니다.
      * 1은 유저, -1은 컴퓨터, 0은 없음입니다.
      * @param x 

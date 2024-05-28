@@ -34,6 +34,8 @@ void UserPlay::setInput()
 {
     int x,y;
     scanf("(%d,%d)",&x,&y);
+    // TODO : 유저가 선택가능한 곳인지 확인해야 함.
+    
     this->board->setInput(false,x,y);
 }
 

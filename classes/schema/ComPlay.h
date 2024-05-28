@@ -17,6 +17,7 @@ public:
     ComPlay(Board* _board);
     ~ComPlay();
     double predict(); // 예측 실행후 반환
+    double getPredictScore(int x, int y); // 해당 좌표의 예측 점수를 반환
 
 };
 
