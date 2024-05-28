@@ -56,5 +56,10 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.encoding": "euckr"
+  "files.encoding": "euckr",
+  "files.associations": {
+    "*.ejs": "html",
+    "xstring": "cpp",
+    "xutility": "cpp"
+  }
 }
