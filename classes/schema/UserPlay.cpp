@@ -4,7 +4,8 @@
 #include "enums/PlayerGameResults.h"
 #include "enums/PiecesCode.h"
 #include "UserPlay.h"
-
+#include "ComPlay.h"
+#include "BoardCheck.h"
 using namespace std;
 
 UserPlay::UserPlay(bool computer_first)
@@ -13,16 +14,24 @@ UserPlay::UserPlay(bool computer_first)
     int size;
     cin >> size;
     this->board = new Board(size);
+    ComPlay* complay = new ComPlay(board);
+    BoardCheck* boardCheck = new BoardCheck(board,complay);
     cout << "Board size... : " << size << endl;
     this->computerFirst = computer_first;
     // 이하 초기값 세팅
     if(this->computerFirst)
     {
-        this->board->setInput(true,0,0);
+        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2);
+        this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2+1);
+        this->board->setInput(false,this->board->getSize()/2+1,this->board->getSize()/2);
+        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2+1);
     }
     else
     {
-        this->board->setInput(false,0,0);
+        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2);
+        this->board->setInput(false,this->board->getSize()/2+1,this->board->getSize()/2+1);
+        this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2);
+        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2+1);
     }
 }
 UserPlay::~UserPlay()
@@ -32,6 +41,7 @@ UserPlay::~UserPlay()
 
 void UserPlay::setInput()
 {
+    cout << "좌표를 입력하세요. (x,y) :";
     bool end = false;
     while (end == false){
         int x,y;
@@ -60,6 +70,10 @@ void UserPlay::setInput()
             case InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY:
                 cout << "이미 기물이 있습니다." << endl;
                 break;
+        }
+        if(end == false)
+        {
+            cout << "다시 입력해주세요." << endl;
         }
     }
 }

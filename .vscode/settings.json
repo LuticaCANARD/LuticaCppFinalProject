@@ -67,6 +67,7 @@
     "xtree": "cpp",
     "ostream": "cpp",
     "future": "cpp",
-    "new": "cpp"
+    "new": "cpp",
+    "random": "cpp"
   }
 }
