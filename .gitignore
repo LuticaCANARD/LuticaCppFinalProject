@@ -3,3 +3,5 @@ build/*
 .vscode/launch.json
 .vscode/tasks.json
 out/*
+*.gch
+*.exe

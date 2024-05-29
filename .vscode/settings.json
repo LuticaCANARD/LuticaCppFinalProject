@@ -68,6 +68,7 @@
     "ostream": "cpp",
     "future": "cpp",
     "new": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "algorithm": "cpp"
   }
 }

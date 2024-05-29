@@ -1,7 +1,7 @@
 #ifndef BOARDCHECK_H
 #define BOARDCHECK_H
 
-#include "../data/Board.h"
+#include "../data/Board.h" // Add this line to include the "Board.h" file
 #include "../../enums/PlayerGameResults.h"
 #include "../data/DataActions.h"
 #include "ComPlay.h"

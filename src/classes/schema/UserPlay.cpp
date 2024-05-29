@@ -1,11 +1,13 @@
+#include "UserPlay.h"
+
 #include <iostream>
 #include "../data/Board.h"
 #include "../data/Pieces.h"
 #include "../../enums/PlayerGameResults.h"
 #include "../../enums/PiecesCode.h"
-#include "UserPlay.h"
 #include "ComPlay.h"
 #include "BoardCheck.h"
+#include "../data/GameResult.h"
 using namespace std;
 
 UserPlay::UserPlay(bool computer_first)
@@ -14,6 +16,7 @@ UserPlay::UserPlay(bool computer_first)
     int size;
     cin >> size;
     this->board = new Board(size);
+    cout << "보드를 초기화합니다.";
     ComPlay* complay = new ComPlay(board);
     BoardCheck* boardCheck = new BoardCheck(board,complay);
     cout << "Board size... : " << size << endl;
@@ -33,6 +36,7 @@ UserPlay::UserPlay(bool computer_first)
         this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2);
         this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2+1);
     }
+    cout << "보드 초기화 완료" << endl;
 }
 UserPlay::~UserPlay()
 {
@@ -82,7 +86,16 @@ void UserPlay::setInput()
 
 void UserPlay::play()
 {
-    
+    // TODO...
+}
+
+bool UserPlay::getEnded()
+{
+    return false;
+}
+GameResult UserPlay::getGameResult()
+{
+    return GameResult(0,0,false);
 }
 
 // Path: classes/schema/UserPlay.h

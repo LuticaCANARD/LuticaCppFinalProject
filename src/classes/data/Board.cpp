@@ -1,11 +1,11 @@
+#include "Board.h"
 #include "Pieces.h"
 #include <iostream>
-#include "Board.h"
-#include "PlayerGameResults.h"
-#include "PiecesCode.h"
+#include "../../enums/PlayerGameResults.h"
+#include "../../enums/PiecesCode.h"
 #include "../../enums/InputErrorCode.h"
 #include <vector>
-#include "data/DataActions.h"
+#include "../data/DataActions.h"
 using namespace std;
 /**
  * @brief 보드를 정의함.
@@ -18,6 +18,7 @@ Board::Board(int size)
     this->board = new Pieces** [size];
     for(int a = 0 ; a < size ; a ++)
     {
+        this->board[a] = new Pieces* [size];
         for (int b=0;b<size;b++)
         {
             this->board[a][b] = NULL;
