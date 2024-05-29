@@ -36,6 +36,8 @@ UserPlay::UserPlay(bool computer_first)
 }
 UserPlay::~UserPlay()
 {
+    delete this->complay;
+    delete this->boardCheck;
     delete this->board;
 }
 
@@ -76,6 +78,11 @@ void UserPlay::setInput()
             cout << "다시 입력해주세요." << endl;
         }
     }
+}
+
+void UserPlay::play()
+{
+    
 }
 
 // Path: classes/schema/UserPlay.h
