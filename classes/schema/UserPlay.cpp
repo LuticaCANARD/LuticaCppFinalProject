@@ -32,11 +32,36 @@ UserPlay::~UserPlay()
 
 void UserPlay::setInput()
 {
-    int x,y;
-    scanf("(%d,%d)",&x,&y);
-    // TODO : 유저가 선택가능한 곳인지 확인해야 함.
-    
-    this->board->setInput(false,x,y);
+    bool end = false;
+    while (end == false){
+        int x,y;
+        scanf("(%d,%d)",&x,&y);
+        // TODO : 유저가 선택가능한 곳인지 확인해야 함.
+        // setInput에서 확인하게 하였음. 
+        InputErrorCode code = this->board->setInput(false,x,y);
+        switch(code)
+        {
+            case InputErrorCode::VALID_INPUT:
+                cout << "유저의 입력이 완료되었습니다." << endl;
+                end = true;
+                break;
+            case InputErrorCode::INVALID_INPUT_X_0:
+                cout << "x좌표가 0보다 작습니다." << endl;
+                break;
+            case InputErrorCode::INVALID_INPUT_X_MAX:
+                cout << "x좌표가 최대값을 초과합니다." << endl;
+                break;
+            case InputErrorCode::INVALID_INPUT_Y_0:
+                cout << "y좌표가 0보다 작습니다." << endl;
+                break;
+            case InputErrorCode::INVALID_INPUT_Y_MAX:
+                cout << "y좌표가 최대값을 초과합니다." << endl;
+                break;
+            case InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY:
+                cout << "이미 기물이 있습니다." << endl;
+                break;
+        }
+    }
 }
 
 // Path: classes/schema/UserPlay.h

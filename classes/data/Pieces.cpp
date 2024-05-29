@@ -14,4 +14,9 @@ bool Pieces::getComputer()
 {
     return this->computer;
 }
+
+void Pieces::reverse()
+{
+    this->computer = !this->computer;
+}
 // Path: classes/data/Ware.h

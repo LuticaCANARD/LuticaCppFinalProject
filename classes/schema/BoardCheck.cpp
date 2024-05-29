@@ -91,19 +91,19 @@ bool BoardCheck::isGameEnd()
     }
     if(is_full == true) return true;
     // 2. 더이상의 수를 둘 수 있는지 확인
+    vector<DataActions> can_set_list = getCanSetListOnBoard(this->board,true);
+    if(can_set_list.size() == 0) return true;
+    can_set_list = getCanSetListOnBoard(this->board,false);
+    if(can_set_list.size() == 0) return true;
+    return false;
 
 }
-/**
- * @brief 둘 수 있는지만 조사.
- * 
- * @param computer 
- * @return vector<DataActions> 
- */
-vector<DataActions> BoardCheck::getCanSetList(bool computer)
+
+vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer)
 {
     vector<DataActions> result;
-    PiecesCode** bd = this->board->getBoardInfo();
-    int size = this->board->getSize();
+    PiecesCode** bd = _bd->getBoardInfo();
+    int size = _bd->getSize();
     PiecesCode target = computer == true ? PiecesCode::COMPUTER : PiecesCode::USER;
     PiecesCode enemy = computer == true ? PiecesCode::USER : PiecesCode::COMPUTER;
     map<pair<int,int>,bool> checked = map<pair<int,int>,bool>();
@@ -126,7 +126,7 @@ vector<DataActions> BoardCheck::getCanSetList(bool computer)
                         if(bd[x][y] != PiecesCode::EMPTY) continue; // 이미 기물이 있으면 생략
                         if(checked.find(make_pair(x,y)) != checked.end()) continue; // 이미 조사한 곳이면 생략
                         checked[make_pair(x,y)] = true;
-                        result.push_back(DataActions(x,y,this->complay->getPredictScore(x,y)));
+                        result.push_back(DataActions(x,y,0));
                     }
                 }
             }

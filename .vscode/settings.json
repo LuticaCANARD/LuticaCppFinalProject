@@ -65,6 +65,8 @@
     "utility": "cpp",
     "vector": "cpp",
     "xtree": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "future": "cpp",
+    "new": "cpp"
   }
 }

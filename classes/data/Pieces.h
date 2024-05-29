@@ -17,6 +17,7 @@ public :
  */
     Pieces(bool _isComputer);
     bool getComputer();
+    void reverse(); // ¹Ù²Þ.
 };
 
 #endif // PIECES_H

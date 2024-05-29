@@ -4,7 +4,8 @@
 #include "PlayerGameResults.h"
 #include "PiecesCode.h"
 #include "enums/InputErrorCode.h"
-
+#include <vector>
+#include "data/DataActions.h"
 using namespace std;
 /**
  * @brief 보드를 정의함.
@@ -31,7 +32,19 @@ Board::~Board()
     }
     delete [] board;
 }
-
+Board::Board(const Board& _board)
+{
+    // 이것은 깊은 복사문제로 인하여 발생함.
+    this->size = _board.size;
+    this->board = new Pieces** [this->size];
+    for(int a = 0 ; a < this->size ; a ++)
+    {
+        for (int b=0;b<this->size;b++)
+        {
+            this->board[a][b] = _board.board[a][b];
+        }
+    }
+}
 
 PiecesCode** Board::getBoardInfo()
 {
@@ -76,17 +89,59 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y)
     this->_flag_changed_board_before_get_code = true;
     delete this->_board_cache;
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
+
+    this->updateBoard(allocateX,allocateY,_isComputer);
+
     return InputErrorCode::VALID_INPUT;
 }
 
-PiecesCode Board::getWareCode(int r,int c)
+void Board::updateBoard(int x,int y,bool isComputer)
+{
+    for (int i=-1;i<=1;i++){
+        for (int j=-1;j<=1;j++)
+        {
+            
+            if(i == 0 && j == 0) continue;
+            bool catchingEnemy = false;
+            int fx = x,fy = y;
+            while(true)
+            {
+                fx += i;
+                fy += j;
+                if(x < 0 || x >= this->size || y < 0 || y >= this->size) break;
+                if(this->board[x][y] == NULL) break;
+                if(isComputer == false && this->board[x][y]->getComputer() == true) continue;
+                else if(isComputer == true && this->board[x][y]->getComputer() == false) continue;
+                else 
+                {
+                    catchingEnemy = true;
+                    break;
+                }
+            }
+            if(catchingEnemy == true){
+                while(true)
+                {
+                    fx -= i;
+                    fy -= j;
+                    if(x==fx && y==fy) break;
+                    if(x < 0 || x >= this->size || y < 0 || y >= this->size) break;
+                    if(this->board[x][y] == NULL) break;
+                    if(isComputer == false && this->board[x][y]->getComputer() == true) {
+                        this->board[x][y]->reverse();
+                    } else if(isComputer == true && this->board[x][y]->getComputer() == false) {
+                        this->board[x][y]->reverse();
+                    }
+                    else break;
+                }
+            }
+        }
+    }
+}
+
+PiecesCode Board::getPieceCode(int r,int c)
 {
     return this->board[r][c] == NULL ? PiecesCode::EMPTY : 
         this->board[r][c]->getComputer() == true ? PiecesCode::COMPUTER : PiecesCode::USER;
-}
-void Board::setWareSimulate(int r,int c, Pieces* target)
-{
-    this->board[r][c] = target;
 }
 
 int Board::searchCanSetThisBoard()

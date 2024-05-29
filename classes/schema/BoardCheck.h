@@ -22,8 +22,9 @@ public:
 
     PlayerGameResults checkGameResult();
     bool isGameEnd();
+    
+    static vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer);
 
-    vector<DataActions> getCanSetList(bool computer);
 };
 
 
