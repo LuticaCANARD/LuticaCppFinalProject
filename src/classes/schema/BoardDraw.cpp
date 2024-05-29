@@ -1,5 +1,5 @@
 #include "BoardDraw.h"
-#include "Board.h"
+#include "../data/Board.h"
 #include <iostream>
 #include <string>
 using namespace std;
