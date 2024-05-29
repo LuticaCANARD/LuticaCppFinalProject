@@ -1,9 +1,9 @@
 #ifndef BOARDCHECK_H
 #define BOARDCHECK_H
 
-#include "Board.h"
-#include "enums/PlayerGameResults.h"
-#include "classes/data/DataActions.h"
+#include "../data/Board.h"
+#include "../../enums/PlayerGameResults.h"
+#include "../data/DataActions.h"
 #include "ComPlay.h"
 #include <vector>
 using namespace std;
@@ -23,7 +23,7 @@ public:
     PlayerGameResults checkGameResult();
     bool isGameEnd();
     
-    static vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer);
+    static vector<DataActions> getCanSetListOnBoard(Board* _bd,bool computer);
 
 };
 

@@ -3,8 +3,8 @@
 // TODO : 예언자를 승계한다.
 // 승계시, 멀티스레딩과 해싱을 사용하여 성능 향상을 추진한다.
 
-#include "data/DataActions.h"
-#include "Board.h"
+#include "../data/DataActions.h"
+#include "../data/Board.h"
 
 class ComPlay
 {

@@ -1,7 +1,7 @@
 #include "BoardCheck.h"
-#include "Board.h"
-#include "enums/PlayerGameResults.h"
-#include "enums/PiecesCode.h"
+#include "../data/Board.h"
+#include "../../enums/PlayerGameResults.h"
+#include "../../enums/PiecesCode.h"
 #include <vector>
 #include <map>
 #include "ComPlay.h"

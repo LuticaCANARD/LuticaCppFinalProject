@@ -8,3 +8,5 @@ project(
   DESCRIPTION "KIMAL"
   LANGUAGES CXX
 )
+# 角青 颇老 积己
+add_executable(${PROJECT_NAME} main.cpp)

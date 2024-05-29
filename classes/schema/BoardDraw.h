@@ -1,7 +1,7 @@
 #ifndef BOARDDRAW_H
 #define BOARDDRAW_H
 
-#include "Board.h"
+#include "../data/Board.h"
 class BoardDraw
 {
 private:

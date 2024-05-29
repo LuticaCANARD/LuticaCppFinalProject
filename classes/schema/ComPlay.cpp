@@ -3,7 +3,7 @@
 #include <mutex>
 #include <vector>
 #include <future>
-#include "data/DataActions.h"
+#include "../data/DataActions.h"
 #include "algorithm"
 #include "BoardCheck.h"
 

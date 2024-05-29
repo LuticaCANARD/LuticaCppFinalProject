@@ -1,8 +1,8 @@
 #include <iostream>
-#include "data/Board.h"
-#include "data/Pieces.h"
-#include "enums/PlayerGameResults.h"
-#include "enums/PiecesCode.h"
+#include "../data/Board.h"
+#include "../data/Pieces.h"
+#include "../../enums/PlayerGameResults.h"
+#include "../../enums/PiecesCode.h"
 #include "UserPlay.h"
 #include "ComPlay.h"
 #include "BoardCheck.h"

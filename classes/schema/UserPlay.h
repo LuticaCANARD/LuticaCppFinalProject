@@ -1,8 +1,8 @@
 #ifndef USERPLAY_H
 #define USERPLAY_H
-#include "Board.h"
+#include "../data/Board.h"
 #include "ComPlay.h"
-#include "data/GameResult.h"
+#include "../data/GameResult.h"
 #include "BoardCheck.h"
 class UserPlay
 {

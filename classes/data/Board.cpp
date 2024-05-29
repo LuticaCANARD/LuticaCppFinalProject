@@ -3,7 +3,7 @@
 #include "Board.h"
 #include "PlayerGameResults.h"
 #include "PiecesCode.h"
-#include "enums/InputErrorCode.h"
+#include "../../enums/InputErrorCode.h"
 #include <vector>
 #include "data/DataActions.h"
 using namespace std;

@@ -1,10 +1,10 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Pieces.h"
-#include "PlayerGameResults.h"
-#include "PiecesCode.h"
-#include "enums/InputErrorCode.h"
+#include "./Pieces.h"
+#include "../../enums/PlayerGameResults.h"
+#include "../../enums/PiecesCode.h"
+#include "../../enums/InputErrorCode.h"
 
 using namespace std;
 /**
