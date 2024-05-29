@@ -8,21 +8,21 @@
  * @copyright Copyright (c) 2024
  * 
  */
-#include "classes/schema/BoardCheck.h"
-#include "classes/schema/ComPlay.h"
-#include "classes/schema/UserPlay.h"
-#include "classes/schema/BoardDraw.h"
-#include "classes/data/Board.h"
-
+#include "src/classes/schema/BoardCheck.h"
+#include "src/classes/schema/ComPlay.h"
+#include "src/classes/schema/UserPlay.h"
+#include "src/classes/schema/BoardDraw.h"
+#include "src/classes/data/Board.h"
+#include <string>
 #include <iostream>
 
 int main()
 {
-    cout <<"2017011 ì´ì¤€ì˜ C++ Final Project Othello Game" << endl;
+    cout <<"2017011 ÀÌÁØ¿µ C++ Final Project Othello Game" << endl;
     while(true)
     {
         UserPlay* userPlay = NULL;
-        cout << "ì»´í“¨í„°ì˜ ì„ ê³µì´ë©´ oë¥¼ ìž…ë ¥í•˜ì„¸ìš” : ";
+        cout << "ÄÄÇ»ÅÍÀÇ ¼±°øÀÌ¸é o¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ";
         string c;
         getline(cin,c);
         if(c=="o"){
@@ -30,33 +30,33 @@ int main()
         } else {
             userPlay = new UserPlay(false);
         }
-        // ì´ˆê¸°ê°’ ì…‹íŒ…ì„ ì™„ìˆ˜í•˜ì˜€ë‹¤. ê·¸ë ‡ë‹¤ë©´, ì§„í–‰í•œë‹¤.
+        // ÃÊ±â°ª ¼ÂÆÃÀ» ¿Ï¼öÇÏ¿´´Ù. ±×·¸´Ù¸é, ÁøÇàÇÑ´Ù.
 
-        // ê²Œìž„ì´ ëë‚ ë•Œê¹Œì§€ í„´ì„ ëŒë¦°ë‹¤.
+        // °ÔÀÓÀÌ ³¡³¯¶§±îÁö ÅÏÀ» µ¹¸°´Ù.
         while (userPlay->getEnded() == false) 
         {
             userPlay->play();
         }
         GameResult result = userPlay->getGameResult();
-        cout << "ê²Œìž„ì´ ëë‚¬ìŠµë‹ˆë‹¤. " << endl;
-        cout << "ê²Œìž„ ê²°ê³¼ : " << endl;
-        cout << "ì‚¬ìš©ìžì˜ ì ìˆ˜ : " << result.userScore << endl;
-        cout << "ì»´í“¨í„°ì˜ ì ìˆ˜ : " << result.computerScore << endl;
-        cout << "ê²Œìž„ì˜ ìŠ¹ìž : ";
+        cout << "°ÔÀÓÀÌ ³¡³µ½À´Ï´Ù. " << endl;
+        cout << "°ÔÀÓ °á°ú : " << endl;
+        cout << "»ç¿ëÀÚÀÇ Á¡¼ö : " << result.userScore << endl;
+        cout << "ÄÄÇ»ÅÍÀÇ Á¡¼ö : " << result.computerScore << endl;
+        cout << "°ÔÀÓÀÇ ½ÂÀÚ : ";
         if(result.userScore > result.computerScore)
         {
-            cout << "ì‚¬ìš©ìž" << endl;
+            cout << "»ç¿ëÀÚ" << endl;
         }
         else if(result.userScore < result.computerScore)
         {
-            cout << "ì»´í“¨í„°" << endl;
+            cout << "ÄÄÇ»ÅÍ" << endl;
         }
         else
         {
-            cout << "ë¬´ìŠ¹ë¶€" << endl;
+            cout << "¹«½ÂºÎ" << endl;
         }
-        delete userPlay; // ê²Œìž„ì´ ëë‚˜ë©´, userPlayë¥¼ ì‚­ì œí•œë‹¤.
-        cout << "ê²Œìž„ì„ ë‹¤ì‹œ ì‹œìž‘í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n) : ";
+        delete userPlay; // °ÔÀÓÀÌ ³¡³ª¸é, userPlay¸¦ »èÁ¦ÇÑ´Ù.
+        cout << "°ÔÀÓÀ» ´Ù½Ã ½ÃÀÛÇÏ½Ã°Ú½À´Ï±î? (y/n) : ";
         string s;
         getline(cin,s);
         if(s=="n") break;
