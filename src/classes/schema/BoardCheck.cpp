@@ -7,21 +7,18 @@
 #include "ComPlay.h"
 using namespace std;
 
-BoardCheck::BoardCheck(Board* _board,ComPlay *_complay)
-{
+BoardCheck::BoardCheck(Board* _board,ComPlay *_complay){
     this->board = _board;
     this->complay = _complay;
 }
-BoardCheck::~BoardCheck()
-{
+BoardCheck::~BoardCheck(){
 }
 /**
  * @brief "게임 결과와는 상관하지 아니하고, " 사용자의 점수를 반환하는 함수
  * 
  * @return int 현 시점에서의 사용자의 점수
  */
-int BoardCheck::getUserScore()
-{
+int BoardCheck::getUserScore(){
     PiecesCode** bd = this->board->getBoardInfo();
     int size = this->board->getSize();
     int result = 0;
@@ -40,8 +37,7 @@ int BoardCheck::getUserScore()
  * 
  * @return int 현 시점에서의 컴퓨터의 점수
  */
-int BoardCheck::getComputerScore()
-{
+int BoardCheck::getComputerScore(){
     PiecesCode** bd = this->board->getBoardInfo();
     int size = this->board->getSize();
     int result = 0;
@@ -59,8 +55,7 @@ int BoardCheck::getComputerScore()
  * @brief 게임 결과를 계산하는 함수
  * 
  */
-PlayerGameResults BoardCheck::checkGameResult()
-{
+PlayerGameResults BoardCheck::checkGameResult(){
     /**
      * @brief 오셀로에서, 게임의 승패는 하기와 같이 결정된다.
      * 1. 일단 모든 칸이 채워졌을 때, 더 많은 기물을 가진 플레이어가 승리한다.
@@ -68,8 +63,7 @@ PlayerGameResults BoardCheck::checkGameResult()
      * 3. 만약, 두 플레이어가 같은 수의 기물을 가지고 있다면, 무승부가 된다.
      * 
      */
-    if(this->isGameEnd())
-    {
+    if(this->isGameEnd()){
         int user_score = this->getUserScore();
         int computer_score = this->getComputerScore();
         if(user_score > computer_score) return PlayerGameResults::WIN;
@@ -85,16 +79,13 @@ PlayerGameResults BoardCheck::checkGameResult()
  * 
  * @return bool 게임이 끝났는지
  */
-bool BoardCheck::isGameEnd()
-{
+bool BoardCheck::isGameEnd(){
     // 1. 모든 칸이 채워졌는지 확인
     PiecesCode** bd = this->board->getBoardInfo();
     int size = this->board->getSize();
     bool is_full = true;
-    for(int a = 0 ; a < size ; a ++)
-    {
-        for (int b=0;b<size;b++)
-        {
+    for(int a = 0 ; a < size ; a ++){
+        for (int b=0;b<size;b++){
             if(bd[a][b] == PiecesCode::EMPTY) is_full = false;
         }
     }
@@ -108,8 +99,7 @@ bool BoardCheck::isGameEnd()
 
 }
 
-vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer)
-{
+vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
     vector<DataActions> result;
     PiecesCode** bd = _bd->getBoardInfo();
     int size = _bd->getSize();
@@ -117,17 +107,12 @@ vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer)
     PiecesCode enemy = computer == true ? PiecesCode::USER : PiecesCode::COMPUTER;
     map<pair<int,int>,bool> checked = map<pair<int,int>,bool>();
 
-    for(int a = 0 ; a < size ; a ++)
-    {
-        for (int b=0;b<size;b++)
-        {
-            if(bd[a][b] == target)
-            {
+    for(int a = 0 ; a < size ; a ++){
+        for (int b=0;b<size;b++){
+            if(bd[a][b] == target){
                 // 상하좌우 대각선을 조사
-                for(int i = -1 ; i <= 1 ; i ++)
-                {
-                    for(int j = -1 ; j <= 1 ; j ++)
-                    {
+                for(int i = -1 ; i <= 1 ; i ++){
+                    for(int j = -1 ; j <= 1 ; j ++){
                         if(i == 0 && j == 0) continue; //자기자신이면 생략
                         int x = a + i;
                         int y = b + j;
