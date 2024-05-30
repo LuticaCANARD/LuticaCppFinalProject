@@ -6,12 +6,12 @@
 #include <map>
 #include "ComPlay.h"
 #include <iostream>
+
 using namespace std;
 
-BoardCheck::BoardCheck(Board* _board,ComPlay *_complay){
-    this->board = _board;
-    this->complay = _complay;
-
+BoardCheck::BoardCheck(Board* bd,ComPlay *mp){
+    this->board = bd;
+    this->complay = mp;
 }
 BoardCheck::~BoardCheck(){
 }
@@ -73,7 +73,6 @@ PlayerGameResults BoardCheck::checkGameResult(){
         else return PlayerGameResults::DRAW;
     }
     return PlayerGameResults::PROGRESS;
-    
 }
 
 /**
@@ -83,7 +82,7 @@ PlayerGameResults BoardCheck::checkGameResult(){
  */
 bool BoardCheck::isGameEnd(){
     // 1. 모든 칸이 채워졌는지 확인
-    std::cout<<"..a"<<(this->board)<<std::endl;
+    std::cout<<(this->board)<<std::endl;
     PiecesCode** bd = this->board->getBoardInfo();
     std::cout<<".."<<std::endl;
     int size = this->board->getSize();
@@ -100,7 +99,6 @@ bool BoardCheck::isGameEnd(){
     can_set_list = getCanSetListOnBoard(this->board,false);
     if(can_set_list.size() == 0) return true;
     return false;
-
 }
 
 vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){

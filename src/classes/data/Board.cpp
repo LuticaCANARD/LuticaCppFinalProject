@@ -124,7 +124,7 @@ void Board::updateBoard(int x,int y,bool isComputer)
             {
                 fx += i;
                 fy += j;
-                if(x < 0 || x >= this->size || y < 0 || y >= this->size) break;
+                if(x < 0 || x >= this->size-1 || y < 0 || y >= this->size-1) break;
                 if(this->board[x][y] == NULL) break;
                 if(isComputer == false && this->board[x][y]->getComputer() == true) continue;
                 else if(isComputer == true && this->board[x][y]->getComputer() == false) continue;

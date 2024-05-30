@@ -21,15 +21,11 @@ int main()
     cout <<"2017011 이준영 C++ Final Project Othello Game" << endl;
     while(true)
     {
-        UserPlay* userPlay = NULL;
         cout << "컴퓨터의 선공이면 o를 입력하세요 : ";
         string c;
         getline(cin,c);
-        if(c=="o"){
-            userPlay = new UserPlay(true);
-        } else {
-            userPlay = new UserPlay(false);
-        }
+        UserPlay* userPlay = new UserPlay(c=="o");
+
         // 초기값 셋팅을 완수하였다. 그렇다면, 진행한다.
 
         // 게임이 끝날때까지 턴을 돌린다.
