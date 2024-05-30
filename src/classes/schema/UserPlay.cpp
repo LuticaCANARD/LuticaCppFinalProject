@@ -119,15 +119,17 @@ bool UserPlay::getEnded()
 GameResult UserPlay::getGameResult()
 {
     bool isGameEnd = this->boardCheck->isGameEnd();
-    if(isGameEnd == false) return GameResult(0,0,false); // 게임이 끝나지 않았다면 빈 결과를 반환한다.
+    if(isGameEnd == false) 
+    {
+        return GameResult(0,0,false); // 게임이 끝나지 않았다면 빈 결과를 반환한다.
+    }
     PiecesCode** bd = this->board->getBoardInfo();
     int size = this->board->getSize();
-
     int userScore = 0;
     int computerScore = 0;
-    for (int a = 0; a<size ; a++) 
+    for (int a = 0; a < size ; a++) 
     {
-        for (int b = 0; b<size ; b++)
+        for (int b = 0; b < size ; b++)
         {
             if(bd[a][b] == PiecesCode::USER) userScore++;
             else if(bd[a][b] == PiecesCode::COMPUTER) computerScore++;
