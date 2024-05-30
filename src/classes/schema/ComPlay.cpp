@@ -5,6 +5,7 @@
 #include <future>
 #include "../data/DataActions.h"
 #include "algorithm"
+#include <iostream>
 #include "BoardCheck.h"
 
 ComPlay::ComPlay(Board* _board)
@@ -58,7 +59,7 @@ DataActions ComPlay::predictSingle(Board* bd, int i,int j)
      * @brief 원래라면, 이 함수는 모든 경우의 수를 따져야 하나, 재귀함수 호출시 너무 많은 연산을 하게 될 예정일 것이고, 요구사항에서 Heuristic한 방안을 주문한 바, 그냥 1페이즈 시뮬레이션의 결과만 greedy하게 반영하게 한다. 끝.
      */
 
-    if(i < 0 || i >= size || j < 0 || j >= size)
+    if(i < 0 || i >= size-1 || j < 0 || j >= size-1)
         return DataActions(i,j,-99);
     if(bd->getBoardInfo()[i][j] != PiecesCode::EMPTY)
         return DataActions(i,j,-99); // 거긴 못둠.
@@ -84,16 +85,20 @@ DataActions ComPlay::predict()
 {
     vector<DataActions> canAction = BoardCheck::getCanSetListOnBoard(board,true);
     vector<future<DataActions>> futures;
+    futures.reserve(canAction.size());
+    std::cout << " PREDICT" << canAction.size() << endl;
     for(int i = 0; i < canAction.size(); i++)
     {
-        futures.push_back(async(launch::async,&ComPlay::predictSingle,this,board,canAction[i].x,canAction[i].y));
+        futures.emplace_back(async(launch::async,&ComPlay::predictSingle,this,board,canAction[i].x,canAction[i].y));
     }
     double min = INT_MAX;
     int x = -1;
     int y = -1;
     for(auto& f : futures)
     {
+        
         DataActions da = f.get();
+        std::cout << " PREDICT" << da.x << " " << da.y << " " << da.score << endl;
         if(da.score < min)
         {
             min = da.score;
@@ -101,6 +106,7 @@ DataActions ComPlay::predict()
             y = da.y;
         }
     }
+    std::cout << " PREDICT" << x << " " << y << " " << min << endl;
     return DataActions(x,y,min);
 }
 

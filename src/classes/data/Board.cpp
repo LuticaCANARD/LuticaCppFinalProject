@@ -25,7 +25,7 @@ Board::Board(int size)
         }
     }
     this->_flag_changed_board_before_get_code = true;
-    this->_board_cache = NULL;
+    this->_board_cache = nullptr;
 }
 Board::~Board()
 {
@@ -42,6 +42,7 @@ Board::Board(const Board& _board)
     this->board = new Pieces** [this->size];
     for(int a = 0 ; a < this->size ; a ++)
     {
+        this->board[a] = new Pieces* [this->size];
         for (int b=0;b<this->size;b++)
         {
             this->board[a][b] = _board.board[a][b];
@@ -51,15 +52,12 @@ Board::Board(const Board& _board)
 
 PiecesCode** Board::getBoardInfo()
 {
-    std::cout<<".."<<std::endl;
 
     if(this->_flag_changed_board_before_get_code == false) 
         return this->_board_cache;
     PiecesCode** result = new PiecesCode* [this->size];
     for(int a = 0 ; a < this->size ; a ++)
     {
-        std::cout<<".."<<std::endl;
-
         result[a] = new PiecesCode [this->size];
         for (int b=0;b<this->size;b++)
         {
@@ -95,12 +93,8 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y)
         return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
     
     this->_flag_changed_board_before_get_code = true;
-    if(this->_board_cache != NULL)
+    if(this->_board_cache != nullptr)
     {
-        for(int a = 0 ; a < this->size ; a ++)
-        {
-            delete [] this->_board_cache[a];
-        }
         delete [] this->_board_cache;
         this->_board_cache = nullptr;
     }
@@ -116,7 +110,6 @@ void Board::updateBoard(int x,int y,bool isComputer)
     for (int i=-1;i<=1;i++){
         for (int j=-1;j<=1;j++)
         {
-            
             if(i == 0 && j == 0) continue;
             bool catchingEnemy = false;
             int fx = x,fy = y;
@@ -124,10 +117,10 @@ void Board::updateBoard(int x,int y,bool isComputer)
             {
                 fx += i;
                 fy += j;
-                if(x < 0 || x >= this->size-1 || y < 0 || y >= this->size-1) break;
-                if(this->board[x][y] == NULL) break;
-                if(isComputer == false && this->board[x][y]->getComputer() == true) continue;
-                else if(isComputer == true && this->board[x][y]->getComputer() == false) continue;
+                if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
+                if(this->board[fx][fy] == NULL) break;
+                if(isComputer == false && this->board[fx][fy]->getComputer() == true) continue;
+                else if(isComputer == true && this->board[fx][fy]->getComputer() == false) continue;
                 else 
                 {
                     catchingEnemy = true;
@@ -140,12 +133,12 @@ void Board::updateBoard(int x,int y,bool isComputer)
                     fx -= i;
                     fy -= j;
                     if(x==fx && y==fy) break;
-                    if(x < 0 || x >= this->size || y < 0 || y >= this->size) break;
-                    if(this->board[x][y] == NULL) break;
-                    if(isComputer == false && this->board[x][y]->getComputer() == true) {
-                        this->board[x][y]->reverse();
-                    } else if(isComputer == true && this->board[x][y]->getComputer() == false) {
-                        this->board[x][y]->reverse();
+                    if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
+                    if(this->board[fx][fy] == NULL) break;
+                    if(isComputer == false && this->board[fx][fy]->getComputer() == true) {
+                        this->board[fx][fy]->reverse();
+                    } else if(isComputer == true && this->board[fx][fy]->getComputer() == false) {
+                        this->board[fx][fy]->reverse();
                     }
                     else break;
                 }

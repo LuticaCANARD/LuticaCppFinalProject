@@ -82,9 +82,7 @@ PlayerGameResults BoardCheck::checkGameResult(){
  */
 bool BoardCheck::isGameEnd(){
     // 1. 모든 칸이 채워졌는지 확인
-    std::cout<<(this->board)<<std::endl;
     PiecesCode** bd = this->board->getBoardInfo();
-    std::cout<<".."<<std::endl;
     int size = this->board->getSize();
     bool is_full = true;
     for(int a = 0 ; a < size ; a ++){

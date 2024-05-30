@@ -55,6 +55,7 @@ void UserPlay::setInput()
     bool end = false;
     while (end == false){
         int x,y;
+        cin.ignore();
         scanf("(%d,%d)",&x,&y);
         // TODO : 유저가 선택가능한 곳인지 확인해야 함.
         // setInput에서 확인하게 하였음. 
