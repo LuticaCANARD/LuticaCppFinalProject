@@ -17,8 +17,8 @@ UserPlay::UserPlay(bool computer_first)
     cin >> size;
     this->board = new Board(size);
     cout << "보드를 초기화합니다.";
-    ComPlay* complay = new ComPlay(board);
-    BoardCheck* boardCheck = new BoardCheck(board,complay);
+    ComPlay* complay = new ComPlay(this->board);
+    BoardCheck* boardCheck = new BoardCheck(this->board,complay);
     cout << "Board size... : " << size << endl;
     this->computerFirst = computer_first;
     // 이하 초기값 세팅
@@ -31,6 +31,7 @@ UserPlay::UserPlay(bool computer_first)
     }
     else
     {
+    
         this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2);
         this->board->setInput(false,this->board->getSize()/2+1,this->board->getSize()/2+1);
         this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2);

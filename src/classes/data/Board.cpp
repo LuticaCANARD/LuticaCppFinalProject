@@ -24,6 +24,8 @@ Board::Board(int size)
             this->board[a][b] = NULL;
         }
     }
+    this->_flag_changed_board_before_get_code = true;
+    this->_board_cache = NULL;
 }
 Board::~Board()
 {
@@ -49,11 +51,16 @@ Board::Board(const Board& _board)
 
 PiecesCode** Board::getBoardInfo()
 {
+    std::cout<<".."<<std::endl;
+
     if(this->_flag_changed_board_before_get_code == false) 
         return this->_board_cache;
     PiecesCode** result = new PiecesCode* [this->size];
     for(int a = 0 ; a < this->size ; a ++)
     {
+        std::cout<<".."<<std::endl;
+
+        result[a] = new PiecesCode [this->size];
         for (int b=0;b<this->size;b++)
         {
             result[a][b] = this->board[a][b] == NULL ? PiecesCode::EMPTY : 
@@ -88,7 +95,15 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y)
         return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
     
     this->_flag_changed_board_before_get_code = true;
-    delete this->_board_cache;
+    if(this->_board_cache != NULL)
+    {
+        for(int a = 0 ; a < this->size ; a ++)
+        {
+            delete [] this->_board_cache[a];
+        }
+        delete [] this->_board_cache;
+        this->_board_cache = nullptr;
+    }
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
 
     this->updateBoard(allocateX,allocateY,_isComputer);
