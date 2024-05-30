@@ -87,15 +87,54 @@ void UserPlay::setInput()
 void UserPlay::play()
 {
     // TODO...
+    if(this->computerFirst)
+    {
+        DataActions computerAction = this->complay->predict();
+        this->board->setInput(true,computerAction.x,computerAction.y);
+        // 컴퓨터가 둠으로서 게임이 끝났는가?
+        if(this->boardCheck->isGameEnd())
+        {
+            return; // 끝났다고 판단되면 조기리턴한다.
+        }
+        this->setInput();
+    }
+    else
+    {
+        this->setInput();
+        // 유저가 둠으로서 게임이 끝났는가?
+        if(this->boardCheck->isGameEnd())
+        {
+            return;
+        }
+        DataActions computerAction = this->complay->predict();
+        this->board->setInput(true,computerAction.x,computerAction.y);
+    }
 }
 
 bool UserPlay::getEnded()
 {
-    return false;
+    return this->boardCheck->isGameEnd();
 }
+
 GameResult UserPlay::getGameResult()
 {
-    return GameResult(0,0,false);
+    bool isGameEnd = this->boardCheck->isGameEnd();
+    if(isGameEnd == false) return GameResult(0,0,false); // 게임이 끝나지 않았다면 빈 결과를 반환한다.
+    PiecesCode** bd = this->board->getBoardInfo();
+    int size = this->board->getSize();
+
+    int userScore = 0;
+    int computerScore = 0;
+    for (int a = 0; a<size ; a++) 
+    {
+        for (int b = 0; b<size ; b++)
+        {
+            if(bd[a][b] == PiecesCode::USER) userScore++;
+            else if(bd[a][b] == PiecesCode::COMPUTER) computerScore++;
+            else if(bd[a][b] == PiecesCode::EMPTY) continue;
+        }
+    }
+    return GameResult(userScore,computerScore,isGameEnd);
 }
 
 // Path: classes/schema/UserPlay.h

@@ -68,6 +68,15 @@ PlayerGameResults BoardCheck::checkGameResult()
      * 3. 만약, 두 플레이어가 같은 수의 기물을 가지고 있다면, 무승부가 된다.
      * 
      */
+    if(this->isGameEnd())
+    {
+        int user_score = this->getUserScore();
+        int computer_score = this->getComputerScore();
+        if(user_score > computer_score) return PlayerGameResults::WIN;
+        else if(user_score < computer_score) return PlayerGameResults::LOSE;
+        else return PlayerGameResults::DRAW;
+    }
+    return PlayerGameResults::PROGRESS;
     
 }
 
