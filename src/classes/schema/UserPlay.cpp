@@ -8,6 +8,7 @@
 #include "ComPlay.h"
 #include "BoardCheck.h"
 #include "../data/GameResult.h"
+#include "BoardDraw.h"
 using namespace std;
 
 UserPlay::UserPlay(bool computer_first)
@@ -21,6 +22,7 @@ UserPlay::UserPlay(bool computer_first)
     cout << "보드를 초기화합니다.";
     ComPlay* lComplay = new ComPlay(bod);
     BoardCheck* lBoardCheck = new BoardCheck(bod,lComplay);
+    this->boardDraw = new BoardDraw(bod);
     this->complay = lComplay;
     this->boardCheck = lBoardCheck;
     cout << "Board size... : " << size << endl;
@@ -28,17 +30,17 @@ UserPlay::UserPlay(bool computer_first)
     // 이하 초기값 세팅
     if(this->computerFirst)
     {
-        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2);
-        this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2+1);
-        this->board->setInput(false,this->board->getSize()/2+1,this->board->getSize()/2);
-        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2+1);
+        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2,true);
+        this->board->setInput(true,this->board->getSize()/2-1,this->board->getSize()/2-1,true);
+        this->board->setInput(false,this->board->getSize()/2-1,this->board->getSize()/2,true);
+        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2-1,true);
     }
     else
     {
-        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2);
-        this->board->setInput(false,this->board->getSize()/2+1,this->board->getSize()/2+1);
-        this->board->setInput(true,this->board->getSize()/2+1,this->board->getSize()/2);
-        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2+1);
+        this->board->setInput(false,this->board->getSize()/2,this->board->getSize()/2,true);
+        this->board->setInput(false,this->board->getSize()/2-1,this->board->getSize()/2-1,true);
+        this->board->setInput(true,this->board->getSize()/2-1,this->board->getSize()/2,true);
+        this->board->setInput(true,this->board->getSize()/2,this->board->getSize()/2-1,true);
     }
     cout << "보드 초기화 완료" << endl;
 }
@@ -51,15 +53,16 @@ UserPlay::~UserPlay()
 
 void UserPlay::setInput()
 {
-    cout << "좌표를 입력하세요. (x,y) :";
     bool end = false;
     while (end == false){
+        this->boardDraw->draw();
+        cout << "좌표를 입력하세요. (x,y) :";
         int x,y;
         cin.ignore();
         scanf("(%d,%d)",&x,&y);
         // TODO : 유저가 선택가능한 곳인지 확인해야 함.
         // setInput에서 확인하게 하였음. 
-        InputErrorCode code = this->board->setInput(false,x,y);
+        InputErrorCode code = this->board->setInput(false,y-1,x-1);
         switch(code)
         {
             case InputErrorCode::VALID_INPUT:
@@ -84,13 +87,14 @@ void UserPlay::setInput()
         }
         if(end == false)
         {
-            cout << "다시 입력해주세요." << endl;
+            cout << "다시 입력해주세요.(x,y)" << endl;
         }
     }
 }
 
 void UserPlay::play()
 {
+
     // TODO...
     if(this->computerFirst)
     {

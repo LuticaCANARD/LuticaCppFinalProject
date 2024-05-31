@@ -24,8 +24,6 @@ Board::Board(int size)
             this->board[a][b] = NULL;
         }
     }
-    this->_flag_changed_board_before_get_code = true;
-    this->_board_cache = nullptr;
 }
 Board::~Board()
 {
@@ -45,7 +43,8 @@ Board::Board(const Board& _board)
         this->board[a] = new Pieces* [this->size];
         for (int b=0;b<this->size;b++)
         {
-            this->board[a][b] = _board.board[a][b];
+            if(_board.board[a][b] != NULL) this->board[a][b] = new Pieces(_board.board[a][b]); // 여기도 복사!
+            else this->board[a][b] = NULL;
         }
     }
 }
@@ -53,8 +52,6 @@ Board::Board(const Board& _board)
 PiecesCode** Board::getBoardInfo()
 {
 
-    if(this->_flag_changed_board_before_get_code == false) 
-        return this->_board_cache;
     PiecesCode** result = new PiecesCode* [this->size];
     for(int a = 0 ; a < this->size ; a ++)
     {
@@ -65,7 +62,6 @@ PiecesCode** Board::getBoardInfo()
                 this->board[a][b]->getComputer() == true ? PiecesCode::COMPUTER : PiecesCode::USER;
         }
     }
-    this->_board_cache = result;
     return result;
 }
 /**
@@ -76,33 +72,55 @@ PiecesCode** Board::getBoardInfo()
  * @param y 
  * @return int 
  */
-InputErrorCode Board::setInput(bool _isComputer,int x,int y)
+InputErrorCode Board::setInput(bool _isComputer,int x,int y,bool isInit)
 {
     if(x < 0) 
         return InputErrorCode::INVALID_INPUT_X_0;
-    else if(x > this->size - 1) 
+    else if(x > this->size) 
         return InputErrorCode::INVALID_INPUT_X_MAX;
     else if(y < 0) 
         return InputErrorCode::INVALID_INPUT_Y_0;
-    else if(y > this->size - 1) 
+    else if(y > this->size) 
         return InputErrorCode::INVALID_INPUT_Y_MAX;
 
     int allocateX = x,allocateY = y;
     
     if(this->board[allocateX][allocateY] != NULL) 
         return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
-    
-    this->_flag_changed_board_before_get_code = true;
-    if(this->_board_cache != nullptr)
+    bool canSet = false;
+    // If enemy is computer, then "enemy" is user. so value is false.
+    // If enemy is user, then "enemy" is computer. so value is true.
+    bool enemy = !_isComputer;
+    if(isInit == false)
     {
-        delete [] this->_board_cache;
-        this->_board_cache = nullptr;
+        for(int i = -1; i<=1 ; i ++)
+        {
+            for(int j = -1; j<=1 ; j++) 
+            {
+                if(i == 0 && j == 0) continue;
+                int fx = allocateX + i;
+                int fy = allocateY + j;
+                if(fx < 0 || fx > this->size || fy < 0 || fy > this->size) continue;
+                else if(this->board[fx][fy] == NULL) continue;
+                else if(this->board[fx][fy]->getComputer() == enemy){
+                    // can set when there is enemy's piece.
+                    canSet = true;
+                    break;
+                };
+            }
+        }
+        if(canSet == false) return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
     }
+    
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
 
     this->updateBoard(allocateX,allocateY,_isComputer);
 
     return InputErrorCode::VALID_INPUT;
+}
+InputErrorCode Board::setInput(bool _isComputer,int x,int y)
+{
+    return this->setInput(_isComputer,x,y,false);
 }
 
 void Board::updateBoard(int x,int y,bool isComputer)

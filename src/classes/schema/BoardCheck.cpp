@@ -93,8 +93,12 @@ bool BoardCheck::isGameEnd(){
     if(is_full == true) return true;
     // 2. 더이상의 수를 둘 수 있는지 확인
     vector<DataActions> can_set_list = getCanSetListOnBoard(this->board,true);
+    cout << "Computer can set list size : " << can_set_list.size() << endl;
     if(can_set_list.size() == 0) return true;
+
     can_set_list = getCanSetListOnBoard(this->board,false);
+    cout << "Player can set list size : " << can_set_list.size() << endl;
+
     if(can_set_list.size() == 0) return true;
     return false;
 }
@@ -116,7 +120,7 @@ vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
                         if(i == 0 && j == 0) continue; //자기자신이면 생략
                         int x = a + i;
                         int y = b + j;
-                        if(x < 0 || x >= size || y < 0 || y >= size) continue; // 범위를 벗어나면 생략
+                        if(x < 0 || x >= size-1 || y < 0 || y >= size-1) continue; // 범위를 벗어나면 생략
                         if(bd[x][y] != PiecesCode::EMPTY) continue; // 이미 기물이 있으면 생략
                         if(checked.find(make_pair(x,y)) != checked.end()) continue; // 이미 조사한 곳이면 생략
                         checked[make_pair(x,y)] = true;

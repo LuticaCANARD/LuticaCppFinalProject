@@ -8,6 +8,9 @@
 Pieces::Pieces(bool _isComputer){
     this->computer = _isComputer;
 }
+Pieces::Pieces(const Pieces& _piece){
+    this->computer = _piece.computer;
+}
 
 bool Pieces::getComputer(){
     return this->computer;

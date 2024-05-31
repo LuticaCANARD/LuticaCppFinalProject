@@ -16,6 +16,7 @@ public :
  * @param _isComputer 
  */
     Pieces(bool _isComputer);
+    Pieces(const Pieces& _piece);
     bool getComputer();
     void reverse(); // ¹Ù²Þ.
 };

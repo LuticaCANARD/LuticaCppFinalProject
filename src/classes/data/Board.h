@@ -19,7 +19,6 @@ private:
     // 삼중...
     int size; // 보드의 크기. 
     bool _flag_changed_board_before_get_code; // 보드가 변경되었는지 여부를 나타냄.
-    PiecesCode** _board_cache; // 보드의 정보가 캐싱됨.
     void updateBoard(int x,int y,bool isComputer); // 보드를 업데이트함.
 public:
     Board(int _size); // 초기화임.
@@ -34,7 +33,9 @@ public:
      * @param y y좌표
      * @return int error code : 1이면 정상임. 
      */
-    InputErrorCode setInput(bool _isComputer,int x,int y);
+    InputErrorCode setInput(bool _isComputer,int x,int y,bool isInit); // 보드에 기물을 설정함.
+    InputErrorCode setInput(bool _isComputer,int x,int y); // 보드에 기물을 설정함.
+
     /**
      * @brief 기물의 소유권을 반환합니다.
      * 1은 유저, -1은 컴퓨터, 0은 없음입니다.
