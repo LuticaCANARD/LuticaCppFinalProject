@@ -86,31 +86,26 @@ DataActions ComPlay::predict()
     vector<DataActions> canAction = BoardCheck::getCanSetListOnBoard(board,true);
     vector<future<DataActions>> futures;
     futures.reserve(canAction.size());
-    double min = INT_MAX;
+    double max = 0;
     int x = -1;
     int y = -1;
-    std::cout << " PREDICT" << canAction.size() << endl;
     for(int i = 0; i < canAction.size(); i++)
     {
 
         futures.emplace_back(async(launch::async,&ComPlay::predictSingle,this,board,canAction[i].x,canAction[i].y));
     }
-
-
-    cout << " PREDICT" << futures.size() << endl;
     for(auto& f : futures)
     {
         
         DataActions da = f.get();
-        std::cout << " PREDICT" << da.x << " " << da.y << " " << da.score << endl;
-        if(da.score < min)
+        if(da.score > max)
         {
-            min = da.score;
+            max = da.score;
             x = da.x;
             y = da.y;
         }
     }
-    std::cout << " PREDICT" << x << " " << y << " " << min << endl;
-    return DataActions(x,y,min);
+    std::cout << "PREDICT" << x << " " << y << " " << max << endl;
+    return DataActions(x,y,max);
 }
 

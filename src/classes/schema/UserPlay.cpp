@@ -49,6 +49,7 @@ UserPlay::~UserPlay()
     delete this->complay;
     delete this->boardCheck;
     delete this->board;
+    delete this->boardDraw;
 }
 
 void UserPlay::setInput()
@@ -115,6 +116,8 @@ void UserPlay::play()
         {
             return;
         }
+        this->boardDraw->draw();
+
         DataActions computerAction = this->complay->predict();
         this->board->setInput(true,computerAction.x,computerAction.y);
     }
@@ -146,6 +149,10 @@ GameResult UserPlay::getGameResult()
         }
     }
     return GameResult(userScore,computerScore,isGameEnd);
+}
+void UserPlay::showBoard()
+{
+    this->boardDraw->draw();
 }
 
 // Path: classes/schema/UserPlay.h

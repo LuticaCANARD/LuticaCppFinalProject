@@ -100,10 +100,8 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y,bool isInit)
                 if(i == 0 && j == 0) continue;
                 int fx = allocateX + i;
                 int fy = allocateY + j;
-                if(fx < 0 || fx > this->size || fy < 0 || fy > this->size) continue;
-                else if(this->board[fx][fy] == NULL) continue;
-                else if(this->board[fx][fy]->getComputer() == enemy){
-                    // can set when there is enemy's piece.
+                if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) continue;
+                if(this->searchCanSetInThisPoint(fx,fy,_isComputer) == true){
                     canSet = true;
                     break;
                 };
@@ -135,6 +133,87 @@ void Board::updateBoard(int x,int y,bool isComputer)
             {
                 fx += i;
                 fy += j;
+                if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
+                if(this->board[fx][fy] == NULL) break;
+                if(isComputer == false && this->board[fx][fy]->getComputer() == true) continue;
+                else if(isComputer == true && this->board[fx][fy]->getComputer() == false) continue;
+                else 
+                {
+                    catchingEnemy = true;
+                    break;
+                }
+            }
+            if(catchingEnemy == true){
+                while(true)
+                {
+                    fx -= i;
+                    fy -= j;
+                    if(x==fx && y==fy) break;
+                    if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
+                    if(this->board[fx][fy] == NULL) break;
+                    if(isComputer == false && this->board[fx][fy]->getComputer() == true) {
+                        this->board[fx][fy]->reverse();
+                    } else if(isComputer == true && this->board[fx][fy]->getComputer() == false) {
+                        this->board[fx][fy]->reverse();
+                    }
+                    else continue;
+                }
+            }
+        }
+    }
+}
+
+PiecesCode Board::getPieceCode(int r,int c)
+{
+    return this->board[r][c] == NULL ? PiecesCode::EMPTY : 
+        this->board[r][c]->getComputer() == true ? PiecesCode::COMPUTER : PiecesCode::USER;
+}
+
+bool Board::searchCanSetInThisPoint(int x,int y,bool isComputer)
+{
+    if(this->board[x][y] != NULL) return false;
+    if(this->board[3][4] != NULL)
+    cout << "Search in " << x << "," << y << this->board[3][4]->getComputer()<< endl;
+    for (int i=-1;i<=1;i++){
+        for (int j=-1;j<=1;j++)
+        {
+            if(i == 0 && j == 0) continue;
+            bool catchingEnemy = false;
+            int fx = x,fy = y;
+            while(true)
+            {
+                fx += i;
+                fy += j;
+                if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
+                if(this->board[fx][fy] == NULL) break;
+                if(this->board[fx][fy]->getComputer() != isComputer) {
+                    catchingEnemy = true;
+                    continue;
+                }
+                else if(this->board[fx][fy]->getComputer() == isComputer && catchingEnemy == true ){
+                    cout << "Can set in " << x << "," << y  << "at" << '(' << fx << ',' << fy << ')' << endl;
+                    return true;
+                }
+                
+            }
+        }
+    }
+    return false;
+}
+
+int Board::searchCanSetThisBoardCount(int x,int y,bool isComputer)
+{
+    int result = 0;
+    for (int i=-1;i<=1;i++){
+        for (int j=-1;j<=1;j++)
+        {
+            if(i == 0 && j == 0) continue;
+            bool catchingEnemy = false;
+            int fx = x,fy = y;
+            while(true)
+            {
+                fx += i;
+                fy += j;
                 if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
                 if(this->board[fx][fy] == NULL) break;
                 if(isComputer == false && this->board[fx][fy]->getComputer() == true) continue;
@@ -153,38 +232,15 @@ void Board::updateBoard(int x,int y,bool isComputer)
                     if(x==fx && y==fy) break;
                     if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
                     if(this->board[fx][fy] == NULL) break;
-                    if(isComputer == false && this->board[fx][fy]->getComputer() == true) {
-                        this->board[fx][fy]->reverse();
-                    } else if(isComputer == true && this->board[fx][fy]->getComputer() == false) {
-                        this->board[fx][fy]->reverse();
+                    if(this->board[fx][fy]->getComputer() == isComputer) {
+                        result++;
+                        break;
                     }
-                    else break;
                 }
             }
         }
     }
-}
-
-PiecesCode Board::getPieceCode(int r,int c)
-{
-    return this->board[r][c] == NULL ? PiecesCode::EMPTY : 
-        this->board[r][c]->getComputer() == true ? PiecesCode::COMPUTER : PiecesCode::USER;
-}
-
-int Board::searchCanSetThisBoard()
-{
-    int count = 0;
-    for (int r = 0 ; r < this->size ; r ++)
-    {
-        for (int c = 0 ; c < this->size ; c++) 
-        {
-            if(this->board[r][c] == NULL) 
-            {
-                count ++;
-            }
-        }
-    }
-    return count;
+    return result;
 }
 int Board::getSize()
 {

@@ -107,22 +107,21 @@ vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
     vector<DataActions> result;
     PiecesCode** bd = _bd->getBoardInfo();
     int size = _bd->getSize();
-    PiecesCode target = computer == true ? PiecesCode::COMPUTER : PiecesCode::USER;
     PiecesCode enemy = computer == true ? PiecesCode::USER : PiecesCode::COMPUTER;
     map<pair<int,int>,bool> checked = map<pair<int,int>,bool>();
-
     for(int a = 0 ; a < size ; a ++){
         for (int b=0;b<size;b++){
-            if(bd[a][b] == target){
+            if(bd[a][b] == enemy){
                 // 상하좌우 대각선을 조사
                 for(int i = -1 ; i <= 1 ; i ++){
                     for(int j = -1 ; j <= 1 ; j ++){
                         if(i == 0 && j == 0) continue; //자기자신이면 생략
                         int x = a + i;
                         int y = b + j;
-                        if(x < 0 || x >= size-1 || y < 0 || y >= size-1) continue; // 범위를 벗어나면 생략
+                        if(x < 0 || x > size-1 || y < 0 || y > size-1) continue; // 범위를 벗어나면 생략
                         if(bd[x][y] != PiecesCode::EMPTY) continue; // 이미 기물이 있으면 생략
                         if(checked.find(make_pair(x,y)) != checked.end()) continue; // 이미 조사한 곳이면 생략
+                        if(_bd->searchCanSetInThisPoint(x,y,computer)==false) continue; // 둘 수 없는 곳이면 생략
                         checked[make_pair(x,y)] = true;
                         result.push_back(DataActions(x,y,0));
                     }

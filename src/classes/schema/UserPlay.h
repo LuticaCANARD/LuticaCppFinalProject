@@ -19,6 +19,7 @@ public:
     void setInput();
     void play();
     bool getEnded();
+    void showBoard();
     GameResult getGameResult();
 };
 

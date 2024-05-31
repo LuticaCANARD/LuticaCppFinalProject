@@ -49,7 +49,8 @@ public:
      * 
      * @return int 추가로 배치 가능한 기물의 수입니다.
      */
-    int searchCanSetThisBoard();
+    bool searchCanSetInThisPoint(int x,int y,bool isComputer);
+    int searchCanSetThisBoardCount(int x,int y,bool isComputer);
     int getSize(); // 보드의 크기를 반환함.
 };
 
