@@ -115,7 +115,6 @@ vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
     for(int a = 0 ; a < size ; a ++){
         for (int b=0;b<size;b++){
             if(bd[a][b] == enemy){
-                cout << "a: " << a << " b: " << b << endl;
                 // 상하좌우 대각선을 조사
                 for(int i = -1 ; i <= 1 ; i ++){
                     for(int j = -1 ; j <= 1 ; j ++){

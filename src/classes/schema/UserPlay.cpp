@@ -117,6 +117,12 @@ void UserPlay::play()
         if(this->boardCheck->isGameEnd() == GameState::NONE)
         {
             return; // 끝났다고 판단되면 조기리턴한다.
+        } 
+        else if(this->boardCheck->isGameEnd() == GameState::PASS_COMPUTER_ONLY)
+        {
+            // 컴퓨터가 둔 상태에서, 컴퓨터만 둘 수 있다면 유저의 턴은 생략한다. (그러나 게임은 끝나지 않았으므로 다시 돌아온다.)
+            cout << "유저가 더이상 둘 수 있는 곳이 없습니다." << endl;
+            return;
         }
         this->setInput();
     }
@@ -128,8 +134,13 @@ void UserPlay::play()
         {
             return;
         }
+        else if(this->boardCheck->isGameEnd() == GameState::PASS_USER_ONLY)
+        {
+            // 유저가 둔 상태에서, 유저만 둘 수 있다면 컴퓨터의 턴은 생략한다. (그러나 게임은 끝나지 않았으므로 다시 돌아온다.)
+            cout << "컴퓨터가 더이상 둘 수 있는 곳이 없습니다." << endl;
+            return;
+        }
         this->boardDraw->draw();
-
         DataActions computerAction = this->complay->predict();
         this->board->setInput(true,computerAction.x,computerAction.y);
     }

@@ -1,18 +1,21 @@
 /**
  * @file main.cpp
- * @author your name (you@domain.com)
- * @brief 
+ * @author ¿Ã¡ÿøµ (presan100@gmail.com)
+ * @brief KNUT C++ Programming Final Project Othello Game
  * @version 0.1
  * @date 2024-05-29
  * 
  * @copyright Copyright (c) 2024
  * 
  */
+#pragma region Include HEADERS
 #include "src/classes/schema/BoardCheck.h"
 #include "src/classes/schema/ComPlay.h"
 #include "src/classes/schema/UserPlay.h"
 #include "src/classes/schema/BoardDraw.h"
 #include "src/classes/data/Board.h"
+#pragma endregion Include HEADERS
+
 #include <string>
 #include <iostream>
 
