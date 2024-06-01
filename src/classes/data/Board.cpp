@@ -91,8 +91,7 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y,bool isInit)
     // If enemy is computer, then "enemy" is user. so value is false.
     // If enemy is user, then "enemy" is computer. so value is true.
     if(isInit == false && this->searchCanSetInThisPoint(allocateX,allocateY,_isComputer) == false) {
-        cout << "Can't set in " << x << "," << y << endl;
-        return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
+        return InputErrorCode::INVALID_INOUT_THERE_IS_NO_PIECE_TO_REVERSE;
     }
 
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
@@ -154,8 +153,6 @@ PiecesCode Board::getPieceCode(int r,int c)
 bool Board::searchCanSetInThisPoint(int x,int y,bool isComputer)
 {
     if(this->board[x][y] != NULL) return false;
-    if(this->board[3][4] != NULL)
-    cout << "Search in " << x << "," << y << this->board[3][4]->getComputer()<< endl;
     for (int i=-1;i<=1;i++){
         for (int j=-1;j<=1;j++)
         {
@@ -172,7 +169,6 @@ bool Board::searchCanSetInThisPoint(int x,int y,bool isComputer)
                     catchingEnemy = true;
                     continue;
                 } else if (this->board[fx][fy]->getComputer() == isComputer && catchingEnemy == true ) {
-                    cout << "Can set in " << x << "," << y  << "at" << '(' << fx << ',' << fy << ')' << endl;
                     return true; // 최소 1회이상 조우하였으므로 둘 수 있음.
                 } else if (this->board[fx][fy]->getComputer() == isComputer) break; // 조우한 바 없으므로 둘 수 없음.
                 

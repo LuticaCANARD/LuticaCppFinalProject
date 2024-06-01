@@ -2,6 +2,7 @@
 #include "../data/Board.h"
 #include "../../enums/PlayerGameResults.h"
 #include "../../enums/PiecesCode.h"
+#include "../../enums/GameState.h"
 #include <vector>
 #include <map>
 #include "ComPlay.h"
@@ -65,7 +66,7 @@ PlayerGameResults BoardCheck::checkGameResult(){
      * 3. 만약, 두 플레이어가 같은 수의 기물을 가지고 있다면, 무승부가 된다.
      * 
      */
-    if(this->isGameEnd()){
+    if(this->isGameEnd() == GameState::NONE){
         int user_score = this->getUserScore();
         int computer_score = this->getComputerScore();
         if(user_score > computer_score) return PlayerGameResults::WIN;
@@ -80,27 +81,29 @@ PlayerGameResults BoardCheck::checkGameResult(){
  * 
  * @return bool 게임이 끝났는지
  */
-bool BoardCheck::isGameEnd(){
+GameState BoardCheck::isGameEnd(){
     // 1. 모든 칸이 채워졌는지 확인
     PiecesCode** bd = this->board->getBoardInfo();
     int size = this->board->getSize();
     bool is_full = true;
+    cout << "size: " << size << endl;
     for(int a = 0 ; a < size ; a ++){
         for (int b=0;b<size;b++){
             if(bd[a][b] == PiecesCode::EMPTY) is_full = false;
         }
     }
-    if(is_full == true) return true;
+    if(is_full == true) return GameState::NONE;
     // 2. 더이상의 수를 둘 수 있는지 확인
-    vector<DataActions> can_set_list = getCanSetListOnBoard(this->board,true);
-    cout << "Computer can set list size : " << can_set_list.size() << endl;
-    if(can_set_list.size() == 0) return true;
-
-    can_set_list = getCanSetListOnBoard(this->board,false);
-    cout << "Player can set list size : " << can_set_list.size() << endl;
-
-    if(can_set_list.size() == 0) return true;
-    return false;
+    vector<DataActions> can_set_list_computer = getCanSetListOnBoard(this->board,true);
+    vector<DataActions> can_set_list_user = getCanSetListOnBoard(this->board,false);
+    #pragma region Debug
+    cout << "can_set_list_computer: " << can_set_list_computer.size() << endl;
+    cout << "can_set_list_user: " << can_set_list_user.size() << endl;
+    #pragma endregion Debug
+    if(can_set_list_computer.size() == 0 && can_set_list_user.size() == 0) return GameState::NONE;
+    if(can_set_list_computer.size() == 0) return GameState::PASS_USER_ONLY;
+    if(can_set_list_user.size() == 0) return GameState::PASS_COMPUTER_ONLY;
+    return GameState::BOTH;
 }
 
 vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
@@ -112,6 +115,7 @@ vector<DataActions> BoardCheck::getCanSetListOnBoard(Board* _bd,bool computer){
     for(int a = 0 ; a < size ; a ++){
         for (int b=0;b<size;b++){
             if(bd[a][b] == enemy){
+                cout << "a: " << a << " b: " << b << endl;
                 // 상하좌우 대각선을 조사
                 for(int i = -1 ; i <= 1 ; i ++){
                     for(int j = -1 ; j <= 1 ; j ++){

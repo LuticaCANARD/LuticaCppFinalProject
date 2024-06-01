@@ -3,6 +3,7 @@
 
 #include "../data/Board.h" // Add this line to include the "Board.h" file
 #include "../../enums/PlayerGameResults.h"
+#include "../../enums/GameState.h"
 #include "../data/DataActions.h"
 #include "ComPlay.h"
 #include <vector>
@@ -21,7 +22,7 @@ public:
     int getComputerScore();
 
     PlayerGameResults checkGameResult();
-    bool isGameEnd();
+    GameState isGameEnd();
     
     static vector<DataActions> getCanSetListOnBoard(Board* _bd,bool computer);
 

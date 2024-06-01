@@ -20,16 +20,24 @@ void BoardDraw::draw()
     for(int a = 0 ; a < size ; a ++)
     {
         if(a == 0) {
-            cout << "--|";
+            cout << "---|";
             for(int b = 0 ; b < size ; b++)
             {
-                cout << " " << (b+1) << " |";
+                if( b < 9 )
+                    cout << " " << (b+1) << " |";
+                else
+                    cout << " " << (b+1) << "|";
             }
             cout << endl;
         }
         for (int b=0;b<size;b++)
         {
-            if(b == 0) cout << (a+1) <<" |";
+            if(b == 0) {
+                if(a<9)
+                    cout << " " << (a+1) << " |";
+                else
+                    cout << " " <<(a+1) <<"|";
+            }
             
             char show = boardInfo[a][b] != PiecesCode::EMPTY ? 
                 (boardInfo[a][b] == PiecesCode::COMPUTER ? 'O' : 'X') 
@@ -37,7 +45,7 @@ void BoardDraw::draw()
             cout << " " << show << " |" ;
         }
         cout << endl;
-        cout << "--|";
+        cout << "---|";
         for(int b = 0 ; b < size ; b++)
         {
             cout << "---|";

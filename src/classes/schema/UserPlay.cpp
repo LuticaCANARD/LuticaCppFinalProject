@@ -3,20 +3,29 @@
 #include <iostream>
 #include "../data/Board.h"
 #include "../data/Pieces.h"
-#include "../../enums/PlayerGameResults.h"
-#include "../../enums/PiecesCode.h"
+#include "../data/GameResult.h"
+
 #include "ComPlay.h"
 #include "BoardCheck.h"
-#include "../data/GameResult.h"
 #include "BoardDraw.h"
+
+#pragma region enums_include
+#include "../../enums/PlayerGameResults.h"
+#include "../../enums/PiecesCode.h"
+#include "../../enums/GameState.h"
+#pragma endregion enums_include
+
 using namespace std;
 
 UserPlay::UserPlay(bool computer_first)
 {
-    cout << "보드의 크기를 입력하세요 : ";
     int size;
-    cin >> size;
-
+    do{
+        cout << "보드의 크기를 입력하세요 : ";
+        cin >> size;
+        if(size < 6 || size > 12) cout << "6~12 사이의 값을 입력해주세요." << endl;
+    }while(size < 6 || size > 12); // 6~12 사이의 값만 받는다.
+    
     Board* bod = new Board(size);
     this->board = bod;
     cout << "보드를 초기화합니다.";
@@ -68,7 +77,7 @@ void UserPlay::setInput()
         {
             case InputErrorCode::VALID_INPUT:
                 cout << "유저의 입력이 완료되었습니다." << endl;
-                end = true;
+                end = true; // 입력이 완료되었으므로 루프를 빠져나간다.
                 break;
             case InputErrorCode::INVALID_INPUT_X_0:
                 cout << "x좌표가 0보다 작습니다." << endl;
@@ -84,6 +93,9 @@ void UserPlay::setInput()
                 break;
             case InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY:
                 cout << "이미 기물이 있습니다." << endl;
+                break;
+            case InputErrorCode::INVALID_INOUT_THERE_IS_NO_PIECE_TO_REVERSE:
+                cout << "뒤집을 기물이 없습니다." << endl;
                 break;
         }
         if(end == false)
@@ -102,7 +114,7 @@ void UserPlay::play()
         DataActions computerAction = this->complay->predict();
         this->board->setInput(true,computerAction.x,computerAction.y);
         // 컴퓨터가 둠으로서 게임이 끝났는가?
-        if(this->boardCheck->isGameEnd())
+        if(this->boardCheck->isGameEnd() == GameState::NONE)
         {
             return; // 끝났다고 판단되면 조기리턴한다.
         }
@@ -112,7 +124,7 @@ void UserPlay::play()
     {
         this->setInput();
         // 유저가 둠으로서 게임이 끝났는가?
-        if(this->boardCheck->isGameEnd())
+        if(this->boardCheck->isGameEnd() == GameState::NONE)
         {
             return;
         }
@@ -125,12 +137,12 @@ void UserPlay::play()
 
 bool UserPlay::getEnded()
 {
-    return this->boardCheck->isGameEnd();
+    return this->boardCheck->isGameEnd() == GameState::NONE;
 }
 
 GameResult UserPlay::getGameResult()
 {
-    bool isGameEnd = this->boardCheck->isGameEnd();
+    bool isGameEnd = this->boardCheck->isGameEnd() == GameState::NONE;
     if(isGameEnd == false) 
     {
         return GameResult(0,0,false); // 게임이 끝나지 않았다면 빈 결과를 반환한다.

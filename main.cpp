@@ -39,7 +39,6 @@ int main()
         cout << "사용자의 점수 : " << result.userScore << endl;
         cout << "컴퓨터의 점수 : " << result.computerScore << endl;
         cout << "게임의 승자 : ";
-        userPlay->showBoard();
         if(result.userScore > result.computerScore)
         {
             cout << "사용자" << endl;
@@ -52,6 +51,7 @@ int main()
         {
             cout << "무승부" << endl;
         }
+        userPlay->showBoard();
         delete userPlay; // 게임이 끝나면, userPlay를 삭제한다.
         cout << "게임을 다시 시작하시겠습니까? (y/n) : ";
         cin.ignore();
