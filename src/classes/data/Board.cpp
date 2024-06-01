@@ -90,26 +90,11 @@ InputErrorCode Board::setInput(bool _isComputer,int x,int y,bool isInit)
     bool canSet = false;
     // If enemy is computer, then "enemy" is user. so value is false.
     // If enemy is user, then "enemy" is computer. so value is true.
-    bool enemy = !_isComputer;
-    if(isInit == false)
-    {
-        for(int i = -1; i<=1 ; i ++)
-        {
-            for(int j = -1; j<=1 ; j++) 
-            {
-                if(i == 0 && j == 0) continue;
-                int fx = allocateX + i;
-                int fy = allocateY + j;
-                if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) continue;
-                if(this->searchCanSetInThisPoint(fx,fy,_isComputer) == true){
-                    canSet = true;
-                    break;
-                };
-            }
-        }
-        if(canSet == false) return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
+    if(isInit == false && this->searchCanSetInThisPoint(allocateX,allocateY,_isComputer) == false) {
+        cout << "Can't set in " << x << "," << y << endl;
+        return InputErrorCode::INVALID_INPUT_THERE_IS_ALREADY;
     }
-    
+
     this->board[allocateX][allocateY] = new Pieces(_isComputer);
 
     this->updateBoard(allocateX,allocateY,_isComputer);
@@ -135,8 +120,7 @@ void Board::updateBoard(int x,int y,bool isComputer)
                 fy += j;
                 if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
                 if(this->board[fx][fy] == NULL) break;
-                if(isComputer == false && this->board[fx][fy]->getComputer() == true) continue;
-                else if(isComputer == true && this->board[fx][fy]->getComputer() == false) continue;
+                if(isComputer != this->board[fx][fy]->getComputer()) continue;
                 else 
                 {
                     catchingEnemy = true;
@@ -151,12 +135,10 @@ void Board::updateBoard(int x,int y,bool isComputer)
                     if(x==fx && y==fy) break;
                     if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
                     if(this->board[fx][fy] == NULL) break;
-                    if(isComputer == false && this->board[fx][fy]->getComputer() == true) {
+                    if(isComputer != this->board[fx][fy]->getComputer()) {
                         this->board[fx][fy]->reverse();
-                    } else if(isComputer == true && this->board[fx][fy]->getComputer() == false) {
-                        this->board[fx][fy]->reverse();
-                    }
-                    else continue;
+                    } 
+                    else break;
                 }
             }
         }
@@ -189,11 +171,10 @@ bool Board::searchCanSetInThisPoint(int x,int y,bool isComputer)
                 if(this->board[fx][fy]->getComputer() != isComputer) {
                     catchingEnemy = true;
                     continue;
-                }
-                else if(this->board[fx][fy]->getComputer() == isComputer && catchingEnemy == true ){
+                } else if (this->board[fx][fy]->getComputer() == isComputer && catchingEnemy == true ) {
                     cout << "Can set in " << x << "," << y  << "at" << '(' << fx << ',' << fy << ')' << endl;
-                    return true;
-                }
+                    return true; // 최소 1회이상 조우하였으므로 둘 수 있음.
+                } else if (this->board[fx][fy]->getComputer() == isComputer) break; // 조우한 바 없으므로 둘 수 없음.
                 
             }
         }
