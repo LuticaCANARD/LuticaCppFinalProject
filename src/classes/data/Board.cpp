@@ -191,15 +191,14 @@ int Board::searchCanSetThisBoardCount(int x,int y,bool isComputer)
             {
                 fx += i;
                 fy += j;
-                if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
+                if(fx < 0 || fx > this->size-1 || fy < 0 || fy > this->size-1) break;
                 if(this->board[fx][fy] == NULL) break;
-                if(isComputer == false && this->board[fx][fy]->getComputer() == true) continue;
-                else if(isComputer == true && this->board[fx][fy]->getComputer() == false) continue;
-                else 
-                {
+                if(this->board[fx][fy]->getComputer() != isComputer) {
                     catchingEnemy = true;
-                    break;
-                }
+                    continue;
+                } else if (this->board[fx][fy]->getComputer() == isComputer && catchingEnemy == true ) {
+                    return true; // 최소 1회이상 조우하였으므로 둘 수 있음.
+                } else if (this->board[fx][fy]->getComputer() == isComputer) break; // 조우한 바 없으므로 둘 수 없음.
             }
             if(catchingEnemy == true){
                 while(true)
@@ -209,8 +208,9 @@ int Board::searchCanSetThisBoardCount(int x,int y,bool isComputer)
                     if(x==fx && y==fy) break;
                     if(fx < 0 || fx >= this->size-1 || fy < 0 || fy >= this->size-1) break;
                     if(this->board[fx][fy] == NULL) break;
-                    if(this->board[fx][fy]->getComputer() == isComputer) {
+                    if(this->board[fx][fy]->getComputer() != isComputer) {
                         result++;
+                    } else if(this->board[fx][fy]->getComputer() == isComputer) {
                         break;
                     }
                 }
