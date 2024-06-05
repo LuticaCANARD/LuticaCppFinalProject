@@ -77,6 +77,16 @@ DataActions ComPlay::predictSingle(Board* bd, int i,int j)
             }
         }
     }
+    for(int x=0;x<size;x++)
+    {
+        for(int y=0;y<size;y++)
+        {
+            if(simulator.getPieceCode(x,y) == PiecesCode::COMPUTER)
+            {
+                result += predictWeight[x][y];
+            }
+        }
+    }
     //delete simulator; // auto value이다. 지울필요없다.
     // Weight + 점수값 (점수값 == 점수값 delta와 같은 효과이므로.)
     return DataActions(i,j,predictWeight[i][j] + result); 
@@ -91,12 +101,10 @@ DataActions ComPlay::predict()
     int y = -1;
     for(int i = 0; i < canAction.size(); i++)
     {
-
         futures.emplace_back(async(launch::async,&ComPlay::predictSingle,this,board,canAction[i].x,canAction[i].y));
     }
     for(auto& f : futures)
     {
-        
         DataActions da = f.get();
         if(da.score > max)
         {
@@ -105,7 +113,6 @@ DataActions ComPlay::predict()
             y = da.y;
         }
     }
-    std::cout << "PREDICT" << x << " " << y << " " << max << endl;
     return DataActions(x,y,max);
 }
 
