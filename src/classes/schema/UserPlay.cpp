@@ -111,8 +111,20 @@ void UserPlay::play()
     // TODO...
     if(this->computerFirst)
     {
-        DataActions computerAction = this->complay->predict();
-        this->board->setInput(true,computerAction.x,computerAction.y);
+
+        if(this->boardCheck->isGameEnd() == GameState::PASS_USER_ONLY)
+        {
+            while(this->boardCheck->isGameEnd() != GameState::PASS_USER_ONLY)
+            {
+                this->boardDraw->draw();
+                this->setInput();
+            }
+        }
+        if(this->boardCheck->isGameEnd() != GameState::NONE)
+        {
+            DataActions computerAction = this->complay->predict();
+            this->board->setInput(true,computerAction.x,computerAction.y);
+        }
         // 컴퓨터가 둠으로서 게임이 끝났는가?
         if(this->boardCheck->isGameEnd() == GameState::NONE)
         {
@@ -128,7 +140,15 @@ void UserPlay::play()
     }
     else
     {
-        this->setInput();
+        if(this->boardCheck->isGameEnd() == GameState::PASS_COMPUTER_ONLY)
+        {
+            while(this->boardCheck->isGameEnd() != GameState::PASS_COMPUTER_ONLY)
+            {
+                DataActions computerAction = this->complay->predict();
+                this->board->setInput(true,computerAction.x,computerAction.y);
+            }
+        }
+        if(this->boardCheck->isGameEnd() != GameState::NONE) this->setInput();
         // 유저가 둠으로서 게임이 끝났는가?
         if(this->boardCheck->isGameEnd() == GameState::NONE)
         {
